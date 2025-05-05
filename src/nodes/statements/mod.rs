@@ -1,6 +1,7 @@
 mod assign;
 mod compound_assign;
 mod do_statement;
+mod export_type_function;
 mod function;
 mod generic_for;
 mod if_statement;
@@ -11,10 +12,12 @@ mod numeric_for;
 mod repeat_statement;
 mod type_declaration;
 mod while_statement;
+mod type_function;
 
 pub use assign::*;
 pub use compound_assign::*;
 pub use do_statement::*;
+pub use export_type_function::*;
 pub use function::*;
 pub use generic_for::*;
 pub use if_statement::*;
@@ -24,6 +27,7 @@ pub use local_function::*;
 pub use numeric_for::*;
 pub use repeat_statement::*;
 pub use type_declaration::*;
+pub use type_function::*;
 pub use while_statement::*;
 
 use crate::nodes::FunctionCall;
@@ -41,6 +45,8 @@ pub enum Statement {
     If(IfStatement),
     LocalAssign(LocalAssignStatement),
     LocalFunction(LocalFunctionStatement),
+    ExportTypeFunction(ExportTypeFunctionStatement),
+    TypeFunction(TypeFunctionStatement),
     NumericFor(Box<NumericForStatement>),
     Repeat(RepeatStatement),
     While(WhileStatement),
@@ -98,6 +104,18 @@ impl From<LocalAssignStatement> for Statement {
 impl From<LocalFunctionStatement> for Statement {
     fn from(function: LocalFunctionStatement) -> Statement {
         Statement::LocalFunction(function)
+    }
+}
+
+impl From<TypeFunctionStatement> for Statement {
+    fn from(type_function: TypeFunctionStatement) -> Statement {
+        Statement::TypeFunction(type_function)
+    }
+}
+
+impl From<ExportTypeFunctionStatement> for Statement {
+    fn from(export_type_function: ExportTypeFunctionStatement) -> Statement {
+        Statement::ExportTypeFunction(export_type_function)
     }
 }
 
